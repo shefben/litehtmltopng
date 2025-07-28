@@ -1,0 +1,18 @@
+// vim:ft=javascript
+ARG_ENABLE('litehtmltopng', 'Enable litehtmltopng support', 'no');
+
+if (PHP_LITEHTMLTOPNG != 'no') {
+    EXTENSION('litehtmltopng', 'litehtmltopng.cpp render.cpp', PHP_LITEHTMLTOPNG_SHARED, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 /EHsc');
+    PHP_LITEHTMLTOPNG = 'yes';
+
+    // Add litehtml sources
+    ADD_SOURCES('..\\libs\\litehtmlcpp98\\src', '*.cpp', 'litehtmltopng');
+
+    // Include directories
+    CHECK_HEADER_ADD_INCLUDE('litehtml.h', 'CFLAGS_LITEHTMLTOPNG', '..\\libs\\litehtmlcpp98\\include');
+    CHECK_HEADER_ADD_INCLUDE('cairo.h', 'CFLAGS_LITEHTMLTOPNG', '..\\libs\\cairo\\include');
+    CHECK_HEADER_ADD_INCLUDE('ft2build.h', 'CFLAGS_LITEHTMLTOPNG', '..\\libs\\freetype\\include');
+
+    // Link libraries
+    ADD_FLAG('LIBS_LITEHTMLTOPNG', 'cairo.lib freetype.lib');
+}
